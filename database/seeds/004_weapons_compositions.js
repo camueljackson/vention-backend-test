@@ -17,5 +17,4 @@ exports.seed = function (knex) {
         { parent_id: 4, material_id: 12, qty: 1 }
       ]);
     });
-
 };

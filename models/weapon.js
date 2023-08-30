@@ -25,20 +25,39 @@ class Weapon {
 
     if (!weaponComposition) throw new Error('Error getting Weapon Materials');
 
-    const materialPower = weaponComposition.reduce(
-      async (acc, curr) =>
-        (acc += await Material.getMaterialPower(curr.material_id)) * curr.qty,
-      0
-    );
-
     let totalPower = 0;
 
     for (let { material_id, qty } of weaponComposition) {
       const materialTotalPower = await Material.getMaterialPower(material_id);
-      totalPower += materialTotalPower;
+      if (Number(materialTotalPower)) totalPower += materialTotalPower * qty;
     }
 
     return totalPower;
+  }
+
+  static async getMaxWeaponBuilds(id) {
+    const weaponComposition = await db(weapons_compositions_table)
+      .select('material_id', 'qty')
+      .where('parent_id', id);
+
+    if (!weaponComposition) throw new Error('Error getting Weapon Materials');
+
+    let totalWeaponBuilds = [];
+
+    for (let { material_id, qty } of weaponComposition) {
+      const material_inventory = await Material.getMaterialInventory(
+        material_id
+      );
+
+      if (qty > material_inventory.qty)
+        return 'Not enough materials to build a weapon';
+
+      totalWeaponBuilds = totalWeaponBuilds.concat(
+        material_inventory.qty / qty
+      );
+    }
+
+    return Math.min(...totalWeaponBuilds);
   }
 }
 

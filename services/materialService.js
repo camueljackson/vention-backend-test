@@ -1,12 +1,17 @@
-const { find } = require('../models/material');
+const { find, update } = require('../models/material');
 
 const MaterialService = () => {
   const getMaterial = async (id) => {
     return find(id);
   };
 
+  const updateMaterial = async (params) => {
+    return update(params);
+  };
+
   return {
-    getMaterial
+    getMaterial,
+    updateMaterial
   };
 };
 

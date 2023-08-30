@@ -7,7 +7,6 @@ exports.up = async function (knex) {
     t.text('name');
     t.integer('power_level');
     t.integer('qty');
-    t.timestamp('deleted_at').nullable();
   });
   await knex.schema.createTable('weapons_compositions', function (t) {
     t.integer('parent_id').index();

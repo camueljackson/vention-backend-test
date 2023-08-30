@@ -1,12 +1,21 @@
 const router = require('express').Router();
 
-const WeaponService = require('../services/weaponService.js');
+const MaterialService = require('../services/materialService.js');
 
-// IMPLEMENT CRUD FOR WEAPON
 router.get('/:id', async (req, res) => {
   try {
-    const material = await WeaponService().getWeapon(req.params.id);
+    const material = await MaterialService().getMaterial(req.params.id);
     res.status(200).json(material);
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+});
+
+// QUEST 3
+router.post('/update-material', async (req, res) => {
+  try {
+    const updatedMaterial = await MaterialService().updateMaterial(req.query);
+    res.status(200).json({ material_id: updatedMaterial.id });
   } catch (err) {
     res.status(500).json({ err: err.message });
   }

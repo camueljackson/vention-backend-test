@@ -1,4 +1,4 @@
-const { find, getPowerLevel } = require('../models/weapon');
+const { find, getPowerLevel, getMaxWeaponBuilds } = require('../models/weapon');
 
 const WeaponService = () => {
   const getWeapon = async (id) => {
@@ -9,9 +9,14 @@ const WeaponService = () => {
     return getPowerLevel(id);
   };
 
+  const getWeaponMaxQuantity = async (id) => {
+    return getMaxWeaponBuilds(id);
+  };
+
   return {
     getWeapon,
-    getWeaponPower
+    getWeaponPower,
+    getWeaponMaxQuantity
   };
 };
 

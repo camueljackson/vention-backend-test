@@ -22,7 +22,10 @@ router.get('/power/:id', async (req, res) => {
 
 router.get('/max-quantity/:id', async (req, res) => {
   try {
-    res.send('Max Quantity');
+    const weaponMaxQuantity = await WeaponService().getWeaponMaxQuantity(
+      req.params.id
+    );
+    res.status(200).json(weaponMaxQuantity);
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
